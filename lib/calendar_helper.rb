@@ -17,27 +17,26 @@ module CalendarHelper
       december: 12
   }
 
-  def self.total_days month_str, year
-    month = MONTH_MAP[month_str.downcase.to_sym]
+  class DateWrapper
+    def initialize month_str, year
+      @year = year
+      @month = MONTH_MAP[month_str.downcase.to_sym]
 
-    first_day_of_month = Date.new(year, month, 1)
-    last_day_of_month = (month_str == 'December' ? Date.new(year + 1, 1, 1) : Date.new(year, month+1, 1)) - 1
-
-    (last_day_of_month - first_day_of_month).to_i + 1
-  end
-
-  def self.weekends month_str, year
-    month = MONTH_MAP[month_str.downcase.to_sym]
-
-    first_day_of_month = Date.new(year, month, 1)
-    last_day_of_month = (month_str == 'December' ? Date.new(year + 1, 1, 1) : Date.new(year, month+1, 1)) - 1
-
-    count = 0
-    (first_day_of_month.day.to_i .. last_day_of_month.day.to_i).each do |day|
-      count += 1 if Date.new(year, month, day).saturday? || Date.new(year, month, day).sunday?
+      @first_day_of_month = Date.new(year, @month, 1)
+      @last_day_of_month = (month_str == 'December' ? Date.new(year + 1, 1, 1) : Date.new(year, @month+1, 1)) - 1
     end
 
-    count
+    def total_days
+      (@last_day_of_month - @first_day_of_month).to_i + 1
+    end
+
+    def weekends
+      count = 0
+      (@first_day_of_month.day.to_i .. @last_day_of_month.day.to_i).each do |day|
+        count += 1 if Date.new(@year, @month, day).saturday? || Date.new(@year, @month, day).sunday?
+      end
+      count
+    end
   end
 
 end
