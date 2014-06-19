@@ -17,13 +17,6 @@ module CalendarHelper
       december: 12
   }
 
-
-  class DateWrapper
-    def initialize month_str, year
-
-    end
-  end
-
   def self.total_days month_str, year
     month = MONTH_MAP[month_str.downcase.to_sym]
 
