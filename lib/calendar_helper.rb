@@ -35,7 +35,7 @@ module CalendarHelper
 
     def weekends
       count = 0
-      (@first_day_of_month.to_i .. @last_day_of_month.to_i).each do |day|
+      (@first_day_of_month .. @last_day_of_month).each do |day|
         count += 1 if Date.new(@year, @month, day).saturday? || Date.new(@year, @month, day).sunday?
       end
       count
