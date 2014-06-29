@@ -26,7 +26,7 @@ module CalendarHelper
       @month = MONTH_MAP[month_str.downcase.to_sym]
 
       @first_day_of_month = Date.new(year, @month, 1).day
-      @last_day_of_month = ((month_str == 'December' ? Date.new(year + 1, 1, 1) : Date.new(year, @month+1, 1)) - 1).day
+      @last_day_of_month = ((month_str.downcase.to_sym == :december ? Date.new(year + 1, 1, 1) : Date.new(year, @month+1, 1)) - 1).day
     end
 
     def total_days
