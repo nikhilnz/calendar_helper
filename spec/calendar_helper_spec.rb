@@ -4,20 +4,23 @@ require 'calendar_helper'
 describe CalendarHelper::DateWrapper do
 
   context '#first_day_of_month' do
-    it { expect(described_class.new('January', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('February', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('March', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('April', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('May', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('June', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('July', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('August', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('September', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('October', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('November', 2014).first_day_of_month).to eq(1) }
-    it { expect(described_class.new('December', 2014).first_day_of_month).to eq(1) }
+    shared_examples_for 'first day of month' do |month, year|
+      it { expect(described_class.new(month, year).first_day_of_month).to eq(1) }
+    end
 
-    it { expect(described_class.new('February', 2012).first_day_of_month).to eq(1) }
+    it_should_behave_like 'first day of month', 'January', 2014
+    it_should_behave_like 'first day of month', 'February', 2014
+    it_should_behave_like 'first day of month', 'March', 2014
+    it_should_behave_like 'first day of month', 'April', 2014
+    it_should_behave_like 'first day of month', 'May', 2014
+    it_should_behave_like 'first day of month', 'June', 2014
+    it_should_behave_like 'first day of month', 'July', 2014
+    it_should_behave_like 'first day of month', 'August', 2014
+    it_should_behave_like 'first day of month', 'September', 2014
+    it_should_behave_like 'first day of month', 'October', 2014
+    it_should_behave_like 'first day of month', 'November', 2014
+    it_should_behave_like 'first day of month', 'December', 2014
+    it_should_behave_like 'first day of month', 'February', 2012
 
   end
 
