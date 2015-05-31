@@ -3,42 +3,40 @@ require "calendar_helper/version"
 module CalendarHelper
 
   MONTH_MAP = {
-      january: 1,
-      february: 2,
-      march: 3,
-      april: 4,
-      may: 5,
-      june: 6,
-      july: 7,
-      august: 8,
-      september: 9,
-      october: 10,
-      november: 11,
-      december: 12
+      january: {month: 1, total_days: 31},
+      february: {month: 2},
+      march: {month: 3, total_days: 31},
+      april: {month: 4, total_days: 30},
+      may: {month: 5, total_days: 31},
+      june: {month: 6, total_days: 30},
+      july: {month: 7, total_days: 31},
+      august: {month: 8, total_days: 31},
+      september: {month: 9, total_days: 30},
+      october: {month: 10, total_days: 31},
+      november: {month: 11, total_days: 30},
+      december: {month: 12, total_days: 31}
   }
 
   class DateWrapper
 
-    attr_reader :first_day_of_month, :last_day_of_month
+    attr_reader :total_days
 
     def initialize month_str, year
       @year = year
-      @month = MONTH_MAP[month_str.downcase.to_sym]
+      @month = MONTH_MAP[month_str.downcase.to_sym][:month]
 
-      @first_day_of_month = Date.new(year, @month, 1).day
-      @last_day_of_month = ((month_str.downcase.to_sym == :december ? Date.new(year + 1, 1, 1) : Date.new(year, @month+1, 1)) - 1).day
-    end
-
-    def total_days
-      (@last_day_of_month - @first_day_of_month).to_i + 1
+      @total_days = if month_str.downcase.to_sym == :february
+                      Date.new(@year, @month, 1).leap? ? 29 : 28
+                    else
+                      MONTH_MAP[month_str.downcase.to_sym][:total_days]
+                    end
     end
 
     def weekends
-      count = 0
-      (@first_day_of_month .. @last_day_of_month).each do |day|
-        count += 1 if Date.new(@year, @month, day).saturday? || Date.new(@year, @month, day).sunday?
+      (1 .. @total_days).count do |day|
+        date = Date.new(@year, @month, day)
+        date.saturday? || date.sunday?
       end
-      count
     end
   end
 
