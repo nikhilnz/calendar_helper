@@ -19,14 +19,14 @@ module CalendarHelper
 
   class DateWrapper
 
-    attr_reader :total_days
+    attr_reader :total_days, :month_number
 
     def initialize month_str, year
       @year = year
-      @month = MONTH_MAP[month_str.downcase.to_sym][:month]
+      @month_number = MONTH_MAP[month_str.downcase.to_sym][:month]
 
       @total_days = if month_str.downcase.to_sym == :february
-                      Date.new(@year, @month, 1).leap? ? 29 : 28
+                      Date.new(@year, month_number, 1).leap? ? 29 : 28
                     else
                       MONTH_MAP[month_str.downcase.to_sym][:total_days]
                     end
@@ -34,7 +34,7 @@ module CalendarHelper
 
     def weekends
       (1 .. @total_days).count do |day|
-        date = Date.new(@year, @month, day)
+        date = Date.new(@year, month_number, day)
         date.saturday? || date.sunday?
       end
     end
